@@ -1,3 +1,13 @@
+###
+# 実行したいコマンド
+##
+
+# brew install git
+# $ git clone https://github.com/riywo/anyenv ~/.anyenv
+# $ echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.your_profile
+# $ echo 'eval "$(anyenv init -)"' >> ~/.your_profile
+# $ exec $SHELL -l
+
 ---
 - hosts: localhost
   tasks:
@@ -6,8 +16,19 @@
     with_items:
       - git
 
-# brew install git
-# $ git clone https://github.com/riywo/anyenv ~/.anyenv
-# $ echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.your_profile
-# $ echo 'eval "$(anyenv init -)"' >> ~/.your_profile
-# $ exec $SHELL -l
+  - name: anyenv / git clone
+    become_user: vagrant
+    git:
+      repo: https://github.com/riywo/anyenv
+      dest: /Users/vagrant/.anyenv
+
+  - name: anyenv / bash_profile
+    become_user: vagrant
+    block:
+      - shell: echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bash_profile
+      - shell: echo 'eval "$(anyenv init -)"' >> ~/.bash_profile
+      - shell: exec $SHELL -l
+
+  - name: phpenv / install
+    become: yes
+    command: anyenv install phpenv
