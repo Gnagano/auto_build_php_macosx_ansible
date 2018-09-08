@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
          "brew install ruby\n" \
          "sudo mv /usr/local/bin/ruby /usr/local/bin/ruby2.0.0\n" \
          "sudo ln -s /usr/local/Cellar/ruby/2.5.1/bin/ruby /usr/local/bin/ruby\n" \
-         "brew install ansible\n" > /Users/vagrant/provision.sh
+         "brew install ansible\n" > /Users/vagrant/provision_init.sh
   SHELL
         #/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 end
