@@ -1,4 +1,13 @@
 ---
 - hosts: localhost
   tasks:
-  - debug: msg="hello world"
+  - name: basic package install
+    homebrew: name={{ item }}
+    with_items:
+      - git
+
+# brew install git
+# $ git clone https://github.com/riywo/anyenv ~/.anyenv
+# $ echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.your_profile
+# $ echo 'eval "$(anyenv init -)"' >> ~/.your_profile
+# $ exec $SHELL -l
