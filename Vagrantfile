@@ -20,13 +20,15 @@ Vagrant.configure("2") do |config|
     # :owner => "vagrant",
     # :group => "vagrant",
     :mount_options => ["dmode=755,fmode=755"]
-
-  config.vm.provision "shell", inline: <<-SHELL
-  echo "#!/bin/sh\n ansible-playbook -i localhost, -c local /Users/vagrant/provision/playbook.yml" > /Users/vagrant/provision.sh
-  SHELL
-
-  config.vm.provision "ansible_local" do |ansible|
-    ansible.playbook = "provision_local/playbook.yml"
-    ansible.install = true
-  end
+  #
+  # config.vm.provision "shell", inline: <<-SHELL
+  # echo "#!/bin/sh\n ansible-playbook -i localhost, -c local /Users/vagrant/provision/playbook.yml" > /Users/vagrant/provision.sh
+  # SHELL
+  #
+  # config.vm.synced_folder "." , "/vagrant", id: "vagrant_folder", :nfs => true
+  #
+  # config.vm.provision "ansible_local" do |ansible|
+  #   ansible.playbook = "provision_local/playbook.yml"
+  #   ansible.install = true
+  # end
 end
