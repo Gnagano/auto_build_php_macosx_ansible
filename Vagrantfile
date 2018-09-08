@@ -21,9 +21,10 @@ Vagrant.configure("2") do |config|
     # :group => "vagrant",
     :mount_options => ["dmode=755,fmode=755"]
   #
-  # config.vm.provision "shell", inline: <<-SHELL
-  # echo "#!/bin/sh\n ansible-playbook -i localhost, -c local /Users/vagrant/provision/playbook.yml" > /Users/vagrant/provision.sh
-  # SHELL
+  config.vm.provision "shell", inline: <<-SHELL
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    brew install ansible
+  SHELL
   #
   # config.vm.synced_folder "." , "/vagrant", id: "vagrant_folder", :nfs => true
   #
