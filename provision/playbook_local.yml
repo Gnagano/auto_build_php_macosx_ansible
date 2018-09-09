@@ -18,31 +18,31 @@
 
   - name: anyenv / set variable
     block:
-      - stat: path="/Users/vagrant/.anyenv/bin/anyenv"
+      - stat: path="/Users/gano/.anyenv/bin/anyenv"
         register: anyenv_path
-      - stat: path="/Users/vagrant/.anyenv/envs/phpenv/bin/phpenv"
+      - stat: path="/Users/gano/.anyenv/envs/phpenv/bin/phpenv"
         register: phpenv_path
 
   - name: anyenv / install anyenv
-    become_user: vagrant
+    become_user: gano
     block:
       - name: anyenv / git clone
         git:
           repo: https://github.com/riywo/anyenv
-          dest: /Users/vagrant/.anyenv
+          dest: /Users/gano/.anyenv
     when: anyenv_path.stat.exists == false
 
   - name: anyenv / bash_profile
     block:
       - shell: echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bash_profile
       - shell: echo 'eval "$(anyenv init -)"' >> ~/.bash_profile
-      #- shell: source /Users/vagrant/.bash_profile
+      #- shell: source /Users/gano/.bash_profile
     become: false
 
   - name: anyenv / phpenv install
     block:
       - command: /bin/bash -lc "anyenv install phpenv"
-      #- shell: source /Users/vagrant/.bash_profile
+      #- shell: source /Users/gano/.bash_profile
     when: phpenv_path.stat.exists == false
 
   - name: phpenv / install 5.6.37
@@ -55,16 +55,18 @@
           - libjpeg
           - libpng
           - libiconv
+          - libxml2
           - icu4c
           - gcc
           - mcrypt
           - autoconf
           - automake
-      #
-      # - block:
-      #   - shell: echo 'PHP_BUILD_CONFIGURE_OPTS="--with-openssl=$(brew --prefix openssl) --with-libxml-dir=$(brew --prefix libxml2)"' >> ~/.bash_profile
-      #   #- shell: source /Users/vagrant/.bash_profile
-      # - command: ln -s /usr/local/opt/openssl/include/openssl /usr/local/include/openssl
-      # - command: brew link bison --force
-      # - command: brew link icu4c --force
-      # - command: /bin/bash -lc "phpenv install 5.6.37"
+
+      - block:
+        - shell: echo 'PHP_BUILD_CONFIGURE_OPTS="--with-openssl=$(brew --prefix openssl) --with-libxml-dir=$(brew --prefix libxml2)"' >> ~/.bash_profile
+        #- shell: source /Users/gano/.bash_profile
+      - command: ln -s /usr/local/opt/openssl/include/openssl /usr/local/include/openssl
+      - command: brew link bison --force
+      - command: brew link icu4c --force
+      - command: brew link libxml2 --force
+      - command: /bin/bash -lc "phpenv install 5.6.37"
