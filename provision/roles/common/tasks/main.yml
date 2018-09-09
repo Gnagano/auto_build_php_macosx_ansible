@@ -1,0 +1,5 @@
+---
+- name: common / basic backage install
+  homebrew:
+    name: "{{ item }}"
+  with_items: "{{ common_basic_packages }}"

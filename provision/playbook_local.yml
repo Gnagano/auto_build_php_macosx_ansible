@@ -11,10 +11,6 @@
 ---
 - hosts: localhost
   tasks:
-  - name: basic package install
-    homebrew: name={{ item }}
-    with_items:
-      - git
 
   - name: anyenv / set variable
     block:

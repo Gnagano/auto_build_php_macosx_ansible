@@ -1,0 +1,23 @@
+---
+- name: anyenv / set variable for anyenv_path
+  block:
+    - stat: path="{{ home_dir }}/.anyenv/bin/anyenv"
+      register: anyenv_path
+    # - stat: path="/Users/gano/.anyenv/envs/phpenv/bin/phpenv"
+    #   register: phpenv_path
+
+- name: anyenv / install anyenv
+  become_user: "{{ owner }}"
+  block:
+    - name: anyenv / git clone
+      git:
+        repo: "{{ anyenv_repository_url }}" #https://github.com/riywo/anyenv
+        dest: "{{ home_dir }}/.anyenv"
+  when: anyenv_path.stat.exists == false
+
+- name: anyenv / bash_profile
+  block:
+    - shell: echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bash_profile
+    - shell: echo 'eval "$(anyenv init -)"' >> ~/.bash_profile
+    #- shell: source /Users/gano/.bash_profile
+  become: false

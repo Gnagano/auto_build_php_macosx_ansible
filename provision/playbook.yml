@@ -10,61 +10,66 @@
 
 ---
 - hosts: localhost
-  tasks:
-  - name: basic package install
-    homebrew: name={{ item }}
-    with_items:
-      - git
+  #tasks:
+  roles:
+    - { role: common, tags: common}
+    - { role: anyenv, tags: anyenv}
+    - { role: phpenv, tags: phpenv}
 
-  - name: anyenv / set variable
-    block:
-      - stat: path="/Users/vagrant/.anyenv/bin/anyenv"
-        register: anyenv_path
-      - stat: path="/Users/vagrant/.anyenv/envs/phpenv/bin/phpenv"
-        register: phpenv_path
-
-  - name: anyenv / install anyenv
-    become_user: vagrant
-    block:
-      - name: anyenv / git clone
-        git:
-          repo: https://github.com/riywo/anyenv
-          dest: /Users/vagrant/.anyenv
-    when: anyenv_path.stat.exists == false
-
-  - name: anyenv / bash_profile
-    block:
-      - shell: echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bash_profile
-      - shell: echo 'eval "$(anyenv init -)"' >> ~/.bash_profile
-      #- shell: source /Users/vagrant/.bash_profile
-    become: false
-
-  - name: anyenv / phpenv install
-    block:
-      - command: /bin/bash -lc "anyenv install phpenv"
-      #- shell: source /Users/vagrant/.bash_profile
-    when: phpenv_path.stat.exists == false
-
-  - name: phpenv / install 5.6.37
-    block:
-      - homebrew: name={{ item }}
-        with_items:
-          - bison
-          - re2c
-          - openssl
-          - libjpeg
-          - libpng
-          - libiconv
-          - icu4c
-          - gcc
-          - mcrypt
-          - autoconf
-          - automake
-      #
-      # - block:
-      #   - shell: echo 'PHP_BUILD_CONFIGURE_OPTS="--with-openssl=$(brew --prefix openssl) --with-libxml-dir=$(brew --prefix libxml2)"' >> ~/.bash_profile
-      #   #- shell: source /Users/vagrant/.bash_profile
-      # - command: ln -s /usr/local/opt/openssl/include/openssl /usr/local/include/openssl
-      # - command: brew link bison --force
-      # - command: brew link icu4c --force
-      # - command: /bin/bash -lc "phpenv install 5.6.37"
+  # - name: basic package install
+  #   homebrew: name={{ item }}
+  #   with_items:
+  #     - git
+  #
+  # - name: anyenv / set variable
+  #   block:
+  #     - stat: path="/Users/vagrant/.anyenv/bin/anyenv"
+  #       register: anyenv_path
+  #     - stat: path="/Users/vagrant/.anyenv/envs/phpenv/bin/phpenv"
+  #       register: phpenv_path
+  #
+  # - name: anyenv / install anyenv
+  #   become_user: vagrant
+  #   block:
+  #     - name: anyenv / git clone
+  #       git:
+  #         repo: https://github.com/riywo/anyenv
+  #         dest: /Users/vagrant/.anyenv
+  #   when: anyenv_path.stat.exists == false
+  #
+  # - name: anyenv / bash_profile
+  #   block:
+  #     - shell: echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bash_profile
+  #     - shell: echo 'eval "$(anyenv init -)"' >> ~/.bash_profile
+  #     #- shell: source /Users/vagrant/.bash_profile
+  #   become: false
+  #
+  # - name: anyenv / phpenv install
+  #   block:
+  #     - command: /bin/bash -lc "anyenv install phpenv"
+  #     #- shell: source /Users/vagrant/.bash_profile
+  #   when: phpenv_path.stat.exists == false
+  #
+  # - name: phpenv / install 5.6.37
+  #   block:
+  #     - homebrew: name={{ item }}
+  #       with_items:
+  #         - bison
+  #         - re2c
+  #         - openssl
+  #         - libjpeg
+  #         - libpng
+  #         - libiconv
+  #         - icu4c
+  #         - gcc
+  #         - mcrypt
+  #         - autoconf
+  #         - automake
+  #     #
+  #     # - block:
+  #     #   - shell: echo 'PHP_BUILD_CONFIGURE_OPTS="--with-openssl=$(brew --prefix openssl) --with-libxml-dir=$(brew --prefix libxml2)"' >> ~/.bash_profile
+  #     #   #- shell: source /Users/vagrant/.bash_profile
+  #     # - command: ln -s /usr/local/opt/openssl/include/openssl /usr/local/include/openssl
+  #     # - command: brew link bison --force
+  #     # - command: brew link icu4c --force
+  #     # - command: /bin/bash -lc "phpenv install 5.6.37"
