@@ -1,9 +1,3 @@
 ---
-home_dir:
-  /Users/vagrant
-
-owner:
-  vagrant
-
 anyenv_repository_url:
   https://github.com/riywo/anyenv

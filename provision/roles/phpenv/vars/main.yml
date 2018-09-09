@@ -1,10 +1,4 @@
 ---
-home_dir:
-  /Users/vagrant
-
-owner:
-  vagrant
-
 phpenv_required_packages:
   - bison
   - re2c

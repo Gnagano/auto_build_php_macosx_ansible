@@ -17,8 +17,6 @@
   when: anyenv_path.stat.exists == false
 
 
-# echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.your_profile
-# echo 'eval "$(anyenv init -)"' >> ~/.your_profile
 - name: anyenv / bash_profile
   block:
     - shell: echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bash_profile
