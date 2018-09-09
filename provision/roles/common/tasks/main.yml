@@ -1,6 +1,4 @@
 ---
-  
-# brew install git
 - name: common / basic backage install
   homebrew:
     name: "{{ item }}"

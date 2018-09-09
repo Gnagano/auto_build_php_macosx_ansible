@@ -30,9 +30,9 @@
       with_items: "{{ phpenv_brew_link_items }}"
 
 
-# - name: phpenv / install php
-#   command: /bin/bash -lc "phpenv install {{ phpenv_php_version }}"
-#
-#
-# - name: phpenv / phpenv global
-#   command: /bin/bash -lc "phpenv global {{ phpenv_php_version }}"
+- name: phpenv / install php
+  command: /bin/bash -lc "phpenv install {{ phpenv_php_version }}"
+
+
+- name: phpenv / phpenv global
+  command: /bin/bash -lc "phpenv global {{ phpenv_php_version }}"
