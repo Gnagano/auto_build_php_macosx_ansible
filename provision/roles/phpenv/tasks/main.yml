@@ -25,7 +25,6 @@
         src:   /usr/local/opt/openssl/include/openssl
         dest:  /usr/local/include/openssl
         state: link
-      #command: ln -s /usr/local/opt/openssl/include/openssl /usr/local/include/openssl
     - name: phpenv / link bison
       command: brew link {{ item }} --force
       with_items: "{{ phpenv_brew_link_items }}"
