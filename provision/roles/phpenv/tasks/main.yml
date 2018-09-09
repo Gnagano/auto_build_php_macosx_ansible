@@ -21,15 +21,19 @@
 - name: phpenv / brew link
   block:
     - name: phpenv / link openssl
-      command: ln -s /usr/local/opt/openssl/include/openssl /usr/local/include/openssl
+      file:
+        src:   /usr/local/opt/openssl/include/openssl
+        dest:  /usr/local/include/openssl
+        state: link
+      #command: ln -s /usr/local/opt/openssl/include/openssl /usr/local/include/openssl
     - name: phpenv / link bison
       command: brew link {{ item }} --force
       with_items: "{{ phpenv_brew_link_items }}"
 
 
-- name: phpenv / install php
-  command: /bin/bash -lc "phpenv install {{ phpenv_php_version }}"
-
-
-- name: phpenv / phpenv global
-  command: /bin/bash -lc "phpenv global {{ phpenv_php_version }}"
+# - name: phpenv / install php
+#   command: /bin/bash -lc "phpenv install {{ phpenv_php_version }}"
+#
+#
+# - name: phpenv / phpenv global
+#   command: /bin/bash -lc "phpenv global {{ phpenv_php_version }}"
