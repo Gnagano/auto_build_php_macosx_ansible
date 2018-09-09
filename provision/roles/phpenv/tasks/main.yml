@@ -8,10 +8,10 @@
 - name: phpenv / php install
   block:
     - command: /bin/bash -lc "anyenv install phpenv"
-    #- shell: source /Users/gano/.bash_profile
   when: phpenv_path.stat.exists == false
 
 
+# brew install ...
 - name: phpenv / required package install
   homebrew:
     name: "{{ item }}"
@@ -25,34 +25,7 @@
     - name: phpenv / link bison
       command: brew link {{ item }} --force
       with_items: "{{ phpenv_brew_link_items }}"
-    #   command: brew link bison --force
-    # - name: phpenv / link icu4c
-    #   command: brew link icu4c --force
-    # - name: phpenv / link libxml2
-    #   command: brew link libxml2 --force
 
 
 - name: phpenv / install php
   command: /bin/bash -lc "phpenv install {{ phpenv_php_version }}"
-
-
-#- name: phpenv / install 5.6.37
-  # block:
-  #   - homebrew: name={{ item }}
-  #     with_items:
-  #       - bison
-  #       - re2c
-  #       - openssl
-  #       - libjpeg
-  #       - libpng
-  #       - libiconv
-  #       - libxml2
-  #       - icu4c
-  #       - gcc
-  #       - mcrypt
-  #       - autoconf
-  #       - automake
-
-    #- block:
-      #- shell: echo 'PHP_BUILD_CONFIGURE_OPTS="--with-openssl=$(brew --prefix openssl) --with-libxml-dir=$(brew --prefix libxml2)"' >> ~/.bash_profile
-      #- shell: source /Users/gano/.bash_profile
