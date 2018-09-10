@@ -2,3 +2,10 @@
 #box file
 /box/
 
+#vagrant
+/.vagrant
+
+#others
+.DS_Store
+.DS_Store?
+*.retry

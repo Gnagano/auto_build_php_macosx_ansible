@@ -1,0 +1,38 @@
+---
+- name: phpenv / set variable for phpenv_path
+  block:
+    - stat: path="{{ home_dir }}/.anyenv/envs/phpenv/bin/phpenv"
+      register: phpenv_path
+
+
+- name: phpenv / php install
+  block:
+    - command: /bin/bash -lc "anyenv install phpenv"
+  when: phpenv_path.stat.exists == false
+
+
+# brew install ...
+- name: phpenv / required package install
+  homebrew:
+    name: "{{ item }}"
+  with_items: "{{ phpenv_required_packages }}"
+
+
+- name: phpenv / brew link
+  block:
+    - name: phpenv / link openssl
+      file:
+        src:   /usr/local/opt/openssl/include/openssl
+        dest:  /usr/local/include/openssl
+        state: link
+    - name: phpenv / link bison
+      command: brew link {{ item }} --force
+      with_items: "{{ phpenv_brew_link_items }}"
+
+
+- name: phpenv / install php
+  command: /bin/bash -lc "phpenv install {{ phpenv_php_version }}"
+
+
+- name: phpenv / phpenv global
+  command: /bin/bash -lc "phpenv global {{ phpenv_php_version }}"

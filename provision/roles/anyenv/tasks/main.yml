@@ -1,0 +1,26 @@
+---
+- name: anyenv / set variable for anyenv_path
+  block:
+    - stat: path="{{ home_dir }}/.anyenv/bin/anyenv"
+      register: anyenv_path
+
+# git clone https://github.com/riywo/anyenv ~/.anyenv
+- name: anyenv / install anyenv
+  become_user: "{{ owner }}"
+  block:
+    - name: anyenv / git clone
+      git:
+        repo: "{{ anyenv_repository_url }}"
+        dest: "{{ home_dir }}/.anyenv"
+  when: anyenv_path.stat.exists == false
+
+- name: anyenv / bash_profile
+  block:
+    - lineinfile:
+        path: "{{ home_dir }}/.bash_profile"
+        line: 'export PATH="$HOME/.anyenv/bin:$PATH"'
+        create: yes
+    - lineinfile:
+        path: "{{ home_dir }}/.bash_profile"
+        line: 'eval "$(anyenv init -)"'
+        create: yes

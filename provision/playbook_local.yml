@@ -1,0 +1,36 @@
+###
+# 実行したいコマンド
+##
+
+# brew install git
+# $ git clone https://github.com/riywo/anyenv ~/.anyenv
+# $ echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.your_profile
+# $ echo 'eval "$(anyenv init -)"' >> ~/.your_profile
+# $ exec $SHELL -l
+
+---
+- hosts: localhost
+  tasks:
+
+  - name: anyenv / set variable
+    block:
+      - stat: path="/Users/gano/.anyenv/bin/anyenv"
+        register: anyenv_path
+      - stat: path="/Users/gano/.anyenv/envs/phpenv/bin/phpenv"
+        register: phpenv_path
+
+  - name: anyenv / install anyenv
+    become_user: gano
+    block:
+      - name: anyenv / git clone
+        git:
+          repo: https://github.com/riywo/anyenv
+          dest: /Users/gano/.anyenv
+    when: anyenv_path.stat.exists == false
+
+  - name: anyenv / bash_profile
+    block:
+      - shell: echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bash_profile
+      - shell: echo 'eval "$(anyenv init -)"' >> ~/.bash_profile
+      #- shell: source /Users/gano/.bash_profile
+    become: false
