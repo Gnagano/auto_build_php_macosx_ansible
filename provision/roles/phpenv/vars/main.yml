@@ -1,0 +1,21 @@
+---
+phpenv_required_packages:
+  - bison
+  - re2c
+  - openssl
+  - libjpeg
+  - libpng
+  - libiconv
+  - libxml2
+  - icu4c
+  - gcc
+  - mcrypt
+  - autoconf
+  - automake
+
+phpenv_brew_link_items:
+  - bison
+  - icu4c
+  - libxml2
+
+phpenv_php_version: 5.6.37
